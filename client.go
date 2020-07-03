@@ -312,14 +312,18 @@ func (conn *Connection) execHTTPRequest(req *http.Request, headers map[string]st
 
 	status := resp.StatusCode
 	if status >= 300 {
+		fmt.Println("Disconnected due status over 300")
+		fmt.Printf("%#v\n", resp)
 		conn.connected = false
 		return status, nil, fmt.Errorf("%v", resp.Status)
 	}
 	obj, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
+		fmt.Println("Could not read the reader")
 		conn.connected = false
 		return status, nil, err
 	}
+	fmt.Println("Everything ok")
 	return status, obj, nil
 }
 
