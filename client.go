@@ -281,6 +281,7 @@ func (conn *Connection) request(method string, params map[string]string, body in
 }
 
 func (conn *Connection) execRequest(method, url string, body io.Reader, headers map[string]string) (int, []byte, error) {
+	fmt.Println(body)
 	req, err := http.NewRequest(method, url, body)
 	if err != nil {
 		logger.Warn("Failed to create request: %v", err)
@@ -314,10 +315,7 @@ func (conn *Connection) execHTTPRequest(req *http.Request, headers map[string]st
 	if status >= 300 {
 		fmt.Println("Disconnected due status over 300")
 		fmt.Printf("%#v\n", resp)
-		data, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			log.Fatal(err)
-		}
+		data, _ := ioutil.ReadAll(resp.Body)
 		fmt.Printf("%v\n", data)
 		conn.connected = false
 		return status, nil, fmt.Errorf("%v", resp.Status)
