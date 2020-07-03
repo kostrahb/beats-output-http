@@ -303,6 +303,8 @@ func (conn *Connection) execHTTPRequest(req *http.Request, headers map[string]st
 	}
 	resp, err := conn.http.Do(req)
 	if err != nil {
+		fmt.Println("Disconnected due to failed request")
+		fmt.Printf("%#v\n", resp)
 		conn.connected = false
 		return 0, nil, err
 	}
