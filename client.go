@@ -314,6 +314,11 @@ func (conn *Connection) execHTTPRequest(req *http.Request, headers map[string]st
 	if status >= 300 {
 		fmt.Println("Disconnected due status over 300")
 		fmt.Printf("%#v\n", resp)
+		data, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("%v\n", data)
 		conn.connected = false
 		return status, nil, fmt.Errorf("%v", resp.Status)
 	}
