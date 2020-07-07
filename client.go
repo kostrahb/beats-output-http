@@ -306,6 +306,8 @@ func (conn *Connection) execHTTPRequest(req *http.Request, headers map[string]st
 	if err != nil {
 		fmt.Println("Disconnected due to failed request")
 		fmt.Printf("%#v\n", resp)
+		data, _ := ioutil.ReadAll(resp.Body)
+		fmt.Printf("%v\n", string(data))
 		conn.connected = false
 		return 0, nil, err
 	}
@@ -316,7 +318,7 @@ func (conn *Connection) execHTTPRequest(req *http.Request, headers map[string]st
 		fmt.Println("Disconnected due status over 300")
 		fmt.Printf("%#v\n", resp)
 		data, _ := ioutil.ReadAll(resp.Body)
-		fmt.Printf("%v\n", data)
+		fmt.Printf("%v\n", string(data))
 		conn.connected = false
 		return status, nil, fmt.Errorf("%v", resp.Status)
 	}
